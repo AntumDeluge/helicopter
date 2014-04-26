@@ -1,3 +1,11 @@
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if intllib then
+	S = intllib.Getter()
+else
+	S = function(s) return s end
+end
+
 --
 -- Helper functions
 --
@@ -210,19 +218,19 @@ minetest.register_entity("helicopter:heliModel", heliModel)
 
 --Blades
 minetest.register_craftitem("helicopter:blades",{
-	description = "Blades",
+	description = S("Blades"),
 	inventory_image = "blades_inv.png",
 	wield_image = "blades_inv.png",
 })
 --Cabin
 minetest.register_craftitem("helicopter:cabin",{
-	description = "Cabin for heli",
+	description = S("Cabin for heli"),
 	inventory_image = "cabin_inv.png",
 	wield_image = "cabin_inv.png",
 })
 --Heli
 minetest.register_craftitem("helicopter:heli", {
-	description = "Helicopter",
+	description = S("Helicopter"),
 	inventory_image = "heli_inv.png",
 	wield_image = "heli_inv.png",
 	wield_scale = {x=1, y=1, z=1},
