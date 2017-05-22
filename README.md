@@ -15,3 +15,14 @@ Forum:
 ------  
 https://forum.minetest.net/viewtopic.php?id=6183
 
+Controls:
+---------
+    Mount:         right-click
+    Dismount:      "E" + right-click or "E" + "S"
+    Forward:       "W"
+    Reverse:       "S"
+    Left:          "A"
+    Right:         "D"
+    Up:            "Space"
+    Down:          "Shift"
+    Switch driver: "E" + "A"

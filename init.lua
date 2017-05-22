@@ -323,11 +323,15 @@ end
 
 
 function heli:on_rightclick(clicker)
+	local ctrl = clicker:get_player_control()
+	
 	if not clicker or not clicker:is_player() then
 		return
 	end
 	
-	if self.driver and clicker == self.driver then
+	-- Hold "e" and right-click to dismount
+	if self.driver and clicker == self.driver and ctrl.aux1 then
+		self:removedriver()
 		return
 	elseif self.pas1 and clicker == self.pas1 then
 		return
@@ -494,7 +498,7 @@ function heli:on_step(dtime)
 	
 	if self.driver then
 		--self.driver:set_animation({ x= 81, y=160, },10,0)
-		self.yaw = self.driver:get_look_yaw()
+		self.yaw = self.driver:get_look_horizontal()
 		local ctrl = self.driver:get_player_control()
 		
 		--Forward/backward
@@ -502,30 +506,30 @@ function heli:on_step(dtime)
 		
 		
 		if ctrl.up then
-			self.vx = self.vx + math.cos(self.driver:get_look_yaw())*0.1
-			self.vz = self.vz + math.sin(self.driver:get_look_yaw())*0.1
+			self.vx = self.vx + math.cos(self.driver:get_look_horizontal())*0.1
+			self.vz = self.vz + math.sin(self.driver:get_look_horizontal())*0.1
 		end
 		
 		if ctrl.down and ctrl.aux1 then -- use key + sneak key gets out
 			self:removedriver()
 		elseif ctrl.down then
-			self.vx = self.vx-math.cos(self.driver:get_look_yaw())*0.1
-			self.vz = self.vz-math.sin(self.driver:get_look_yaw())*0.1
+			self.vx = self.vx-math.cos(self.driver:get_look_horizontal())*0.1
+			self.vz = self.vz-math.sin(self.driver:get_look_horizontal())*0.1
 		end
 		--Left/right
 		
 		if ctrl.left and ctrl.aux1 then -- use key + left key switches places with the left passenger
 			self:setpas1(self.driver,"swap")
 		elseif ctrl.left then
-			self.vz = self.vz+math.cos(self.driver:get_look_yaw())*0.1
-			self.vx = self.vx+math.sin(math.pi+self.driver:get_look_yaw())*0.1
+			self.vz = self.vz+math.cos(self.driver:get_look_horizontal())*0.1
+			self.vx = self.vx+math.sin(math.pi+self.driver:get_look_horizontal())*0.1
 		end
 		
 		if ctrl.right and ctrl.aux1 then -- use key + right key switches places with the right passenger
 			self:setpas2(self.driver,"swap")
 		elseif ctrl.right then
-			self.vz = self.vz-math.cos(self.driver:get_look_yaw())*0.1
-			self.vx = self.vx-math.sin(math.pi+self.driver:get_look_yaw())*0.1
+			self.vz = self.vz-math.cos(self.driver:get_look_horizontal())*0.1
+			self.vx = self.vx-math.sin(math.pi+self.driver:get_look_horizontal())*0.1
 		end
 		--up/down
 		if ctrl.jump then
