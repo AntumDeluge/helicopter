@@ -2,7 +2,6 @@
 -- 	when the object moves past 200 in any direction.  because of this I am attaching the player directly to the object if dofancy = false
 dofancy = false
 
-
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S
 if intllib then
@@ -25,7 +24,6 @@ end
 --
 -- Heli entity
 --
-
 local heli = {
 	physical = true,
 	collisionbox = {-1,-0.6,-1, 1,0.3,1},
@@ -57,20 +55,16 @@ local heli = {
 	vy=0,
 	vz=0,
 	soundHandle=nil
-	
-	
 }
+
 local heliModel = {
 	visual = "mesh",
 	mesh = "heli.x",
 	textures = {"blades.png","blades.png","heli.png","Glass.png"},
 }	
 
-
-
-
 --
---    Heli methods
+-- Heli methods
 --
 
 -- add disconnected player to inactives list
@@ -87,12 +81,11 @@ end
 
 -- get reconnected player who was riding
 function heli:getreactive ()
-
 	local l = self.inactives
 	local p = nil
 	local pl = nil
-	while l do
 
+	while l do
 		pl = minetest.get_player_by_name(l.v)
 		if pl then
 			if p then
@@ -107,22 +100,18 @@ function heli:getreactive ()
 		p = l
 		l = l.n	
 	end
-	return nil
 
+	return nil
 end
 
-
-
 function heli:setdriver(player, special)
-	
 	local object = self.object
 	local bone = ""
+
 	if dofancy then
 		object = self.model
 		bone = "Root"
-		
 	end
-
 
 	local refresh = false
 
@@ -131,49 +120,38 @@ function heli:setdriver(player, special)
 	end
 
 	if refresh == false then
-
 		self.driver = player
 		self.named = player:get_player_name()
 	elseif not player then
 		return
 	end
-
 	
 	if not self.running then
-
 		self.soundHandle=minetest.sound_play({name="helicopter_motor"},{object = self.object, gain = 0.2, max_hear_distance = 32, loop = true,})
 		self.model:set_animation({x=0,y=11},30, 0)
 		self.running = true
 	end
-	
 
 	player:set_attach(object, bone, {x=0,y=9,z=0}, {x=0,y=0,z=0})
 	player:set_eye_offset({x=0,y=-5,z=0},{x=0,y=0,z=0})
-
 end
 
 
 function heli:setpas1( player, special)
-
-
-
-
-	
 	local object = self.object
 	local bone = ""
+
 	if dofancy then
 		object = self.model
 		bone = "Root"
 	end
-
 	
 	local refresh = false
 	if special and special == "refresh" then
 		refresh = true
 	end
-	if refresh == false then
 
-		
+	if refresh == false then
 		local swap = false
 		local seattaken = false
 
@@ -192,44 +170,33 @@ function heli:setpas1( player, special)
 			return
 		end
 
-
-
 		if swap == true then
 			self:setdriver(self.pas1)
-
 		end
 	
 		self.pas1 = player
 		self.name1 = player:get_player_name()
-		
 	elseif not player then
 		return
 	end
 
 	player:set_attach(object, bone, {x=-10,y=9,z=-9}, {x=0,y=0,z=0})
-	
 end
 
-
 function heli:setpas2(player,special)
-
-
-		
 	local object = self.object
 	local bone = ""
+
 	if dofancy then
 		object = self.model
 		bone = "Root"
 	end
-
 	
 	local refresh = false
 	if special and special == "refresh" then
 		refresh = true
 	end
 	if refresh == false then
-
-	
 		local swap = false
 		local seattaken = false
 
@@ -248,14 +215,9 @@ function heli:setpas2(player,special)
 			return
 		end
 
-
 		if swap == true then
 			self:setdriver(self.pas2)
-
-
 		end
-	
-
 
 		self.pas2 = player
 		self.name2 = player:get_player_name()
@@ -264,32 +226,26 @@ function heli:setpas2(player,special)
 	end
 	
 	player:set_attach(object, bone, {x=10,y=9,z=-9}, {x=0,y=0,z=0})
-
 end
 
 function heli:removedriver ()
-
 	if self.driver:is_player() then
-		
 		self.driver:set_eye_offset({x=0,y=0,z=0},{x=0,y=0,z=0})
 		self.driver:set_detach()
 	end
+
 	self.driver = nil
 	self.named = nil
 	
 	if self.pas1 then
-	
 		local newdriver = self.pas1
 		self:removepas1()
 		self:setdriver(newdriver)
-		
-		
 	else
 		self.model:set_animation({x=0,y=1},0, 0)
 		minetest.sound_stop(self.soundHandle)
 		self.running = false
 	end
-
 end
 
 function heli:removepas1()
@@ -301,26 +257,20 @@ function heli:removepas1()
 	self.pas1 = nil
 	self.name1 = nil
 	if self.pas2 then
-	
 		local newpas1 = self.pas2
 		self:removepas2()
 		self:setpas1(newpas1)
-		
 	end
 end
 
 function heli:removepas2()
-
 	if self.pas2:is_player() then
-
 		self.pas2:set_eye_offset({x=0,y=0,z=0},{x=0,y=0,z=0})
 		self.pas2:set_detach()
 	end
 	self.pas2 = nil
 	self.name2 = nil
 end
-
-
 
 function heli:on_rightclick(clicker)
 	local ctrl = clicker:get_player_control()
@@ -362,7 +312,6 @@ function heliModel:on_activate(staticdata, dtime_s)
 	if is_attached == false then
 		self.object:remove()
 	end
-	
 end
 
 function heli:on_activate(staticdata, dtime_s)
@@ -378,8 +327,6 @@ function heli:on_activate(staticdata, dtime_s)
 		self.model:set_attach(self.object, "", {x=0,y=-5,z=0}, {x=0,y=0,z=0})	
 	end
 end
-
-
 
 function heli:get_staticdata( )
 	local l = self.inactives
@@ -420,7 +367,6 @@ function heliModel:on_punch(puncher, time_from_last_punch, tool_capabilities, di
 end
 
 function heli:on_step(dtime)
-
 	-- check if passenger #2 disconnected from the game
 	if self.pas2 and self.pas2:get_player_name() == "" then
 		self:addinactive(elf.name2)
@@ -438,14 +384,11 @@ function heli:on_step(dtime)
 		self:removedriver()
 	end
 
-
-	
 	--Prevent multi heli control bug, seems buggy so commented out 
 	--if self.driver and ( math.abs(self.driver:getpos().x-self.object:getpos().x)>10*dtime or math.abs(self.driver:getpos().y-self.object:getpos().y)>10*dtime or math.abs(self.driver:getpos().z-self.object:getpos().z)>10*dtime) then
 	--	print("ejecting driver")
 	--	self:removedriver()
 	--end
-
 
 	local hasdriver = false
 	local haspas1 = false
@@ -495,16 +438,12 @@ function heli:on_step(dtime)
 		self.vz = -0.3 * self.vz
 	end
 	
-	
 	if self.driver then
 		--self.driver:set_animation({ x= 81, y=160, },10,0)
 		self.yaw = self.driver:get_look_horizontal()
 		local ctrl = self.driver:get_player_control()
 		
 		--Forward/backward
-		
-		
-		
 		if ctrl.up then
 			self.vx = self.vx + math.cos(self.driver:get_look_horizontal())*0.1
 			self.vz = self.vz + math.sin(self.driver:get_look_horizontal())*0.1
@@ -540,11 +479,9 @@ function heli:on_step(dtime)
 		if ctrl.sneak then
 			if self.vy>-10 then
 				self.vy = self.vy-0.2
-				
 			end
 		end
 		--
-	
 	end
 	
 	if self.pas1 then
@@ -609,7 +546,6 @@ function heli:on_step(dtime)
 	self.object:setvelocity({x=self.vx, y=self.vy,z=self.vz})
 	
 	if self.model or self.driver then
-	
 		local xr=-90+self.vx*3*math.cos(self.yaw)+self.vz*3*math.sin(self.yaw)
 		local yr =0-self.vx*3*math.sin(self.yaw)+self.vz*3*math.cos(self.yaw)
 		local zr=(self.yaw-math.pi/2)*57
@@ -618,7 +554,6 @@ function heli:on_step(dtime)
 			self.model:set_attach(self.object,"Root", {x=0,y=0,z=5}, {x=xr,y=yr,z=0})
 		end
 		if self.driver then
-			
 			self.object:setyaw(self.yaw-math.pi/2)
 			-- reattach passengers so that players just entering the area or logging in will see the passengers
 			self:setdriver(self.driver,"refresh")
@@ -700,3 +635,4 @@ minetest.register_craft({
 	}
 })	
 
+-- vim: ts=4 sw=4 softtabstop=4 smarttab
