@@ -440,35 +440,35 @@ function heli:on_step(dtime)
 	
 	if self.driver then
 		--self.driver:set_animation({ x= 81, y=160, },10,0)
-		self.yaw = self.driver:get_look_horizontal()
+		self.yaw = self.driver:get_look_horizontal() + math.pi / 2
 		local ctrl = self.driver:get_player_control()
 		
 		--Forward/backward
 		if ctrl.up then
-			self.vx = self.vx + math.cos(self.driver:get_look_horizontal())*0.1
-			self.vz = self.vz + math.sin(self.driver:get_look_horizontal())*0.1
+			self.vx = self.vx + math.cos(self.yaw)*0.1
+			self.vz = self.vz + math.sin(self.yaw)*0.1
 		end
 		
 		if ctrl.down and ctrl.aux1 then -- use key + sneak key gets out
 			self:removedriver()
 		elseif ctrl.down then
-			self.vx = self.vx-math.cos(self.driver:get_look_horizontal())*0.1
-			self.vz = self.vz-math.sin(self.driver:get_look_horizontal())*0.1
+			self.vx = self.vx-math.cos(self.yaw)*0.1
+			self.vz = self.vz-math.sin(self.yaw)*0.1
 		end
 		--Left/right
 		
 		if ctrl.left and ctrl.aux1 then -- use key + left key switches places with the left passenger
 			self:setpas1(self.driver,"swap")
 		elseif ctrl.left then
-			self.vz = self.vz+math.cos(self.driver:get_look_horizontal())*0.1
-			self.vx = self.vx+math.sin(math.pi+self.driver:get_look_horizontal())*0.1
+			self.vz = self.vz+math.cos(self.yaw)*0.1
+			self.vx = self.vx+math.sin(math.pi+self.yaw)*0.1
 		end
 		
 		if ctrl.right and ctrl.aux1 then -- use key + right key switches places with the right passenger
 			self:setpas2(self.driver,"swap")
 		elseif ctrl.right then
-			self.vz = self.vz-math.cos(self.driver:get_look_horizontal())*0.1
-			self.vx = self.vx-math.sin(math.pi+self.driver:get_look_horizontal())*0.1
+			self.vz = self.vz-math.cos(self.yaw)*0.1
+			self.vx = self.vx-math.sin(math.pi+self.yaw)*0.1
 		end
 		--up/down
 		if ctrl.jump then
