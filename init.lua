@@ -449,7 +449,7 @@ function heli:on_step(dtime)
 			self.vz = self.vz + math.sin(self.yaw)*0.1
 		end
 		
-		if ctrl.down and ctrl.aux1 then -- use key + sneak key gets out
+		if ctrl.down and ctrl.aux1 then -- use key (e) + down key (s) = player gets out
 			self:removedriver()
 		elseif ctrl.down then
 			self.vx = self.vx-math.cos(self.yaw)*0.1
