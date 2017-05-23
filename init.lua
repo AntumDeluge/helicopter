@@ -369,9 +369,8 @@ end
 function heli:on_step(dtime)
 	-- check if passenger #2 disconnected from the game
 	if self.pas2 and self.pas2:get_player_name() == "" then
-		self:addinactive(elf.name2)
-
-		self:removepas2( )
+		self:addinactive(self.name2)
+		self:removepas2()
 	end
 	-- check if passenger #1 disconnected from the game
 	if self.pas1 and self.pas1:get_player_name() == "" then
