@@ -26,7 +26,7 @@ end
 --
 local heli = {
 	physical = true,
-	collisionbox = {-1,-0.6,-1, 1,0.3,1},
+	collisionbox = {-0.4,-0.5,-0.4, 0.4,0.6,0.4},
 	makes_footstep_sound = false,
 	collide_with_objects = true,
 	
@@ -634,4 +634,4 @@ minetest.register_craft({
 	}
 })	
 
--- vim: ts=4 sw=4 softtabstop=4 smarttab
+-- vim: ts=4 sw=4 softtabstop=4 smarttab noet:
