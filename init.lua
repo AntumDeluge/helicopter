@@ -108,9 +108,10 @@ function heli:setdriver(player, special)
 	local object = self.object
 	local bone = ""
 
+    local yoffset=0
 	if dofancy then
 		object = self.model
-		bone = "Root"
+		yoffset=5
 	end
 
 	local refresh = false
@@ -132,7 +133,7 @@ function heli:setdriver(player, special)
 		self.running = true
 	end
 
-	player:set_attach(object, bone, {x=0,y=9,z=0}, {x=0,y=0,z=0})
+	player:set_attach(object, bone, {x=0,y=9+yoffset,z=0}, {x=0,y=0,z=0})
 	player:set_eye_offset({x=0,y=-5,z=0},{x=0,y=0,z=0})
 end
 
@@ -141,9 +142,9 @@ function heli:setpas1(player, special)
 	local object = self.object
 	local bone = ""
 
+    local yoffset=0
 	if dofancy then
 		object = self.model
-		bone = "Root"
 	end
 	
 	local refresh = false
@@ -180,16 +181,16 @@ function heli:setpas1(player, special)
 		return
 	end
 
-	player:set_attach(object, bone, {x=-10,y=9,z=-9}, {x=0,y=0,z=0})
+	player:set_attach(object, bone, {x=-10,y=9+yoffset,z=-9}, {x=0,y=0,z=0})
 end
 
 function heli:setpas2(player, special)
 	local object = self.object
 	local bone = ""
 
+    local yoffset=0
 	if dofancy then
 		object = self.model
-		bone = "Root"
 	end
 	
 	local refresh = false
@@ -225,7 +226,7 @@ function heli:setpas2(player, special)
 		return
 	end
 	
-	player:set_attach(object, bone, {x=10,y=9,z=-9}, {x=0,y=0,z=0})
+	player:set_attach(object, bone, {x=10,y=9+yoffset,z=-9}, {x=0,y=0,z=0})
 end
 
 function heli:removedriver()
