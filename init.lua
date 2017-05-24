@@ -80,7 +80,7 @@ end
 
 
 -- get reconnected player who was riding
-function heli:getreactive ()
+function heli:getreactive()
 	local l = self.inactives
 	local p = nil
 	local pl = nil
@@ -137,7 +137,7 @@ function heli:setdriver(player, special)
 end
 
 
-function heli:setpas1( player, special)
+function heli:setpas1(player, special)
 	local object = self.object
 	local bone = ""
 
@@ -183,7 +183,7 @@ function heli:setpas1( player, special)
 	player:set_attach(object, bone, {x=-10,y=9,z=-9}, {x=0,y=0,z=0})
 end
 
-function heli:setpas2(player,special)
+function heli:setpas2(player, special)
 	local object = self.object
 	local bone = ""
 
@@ -228,7 +228,7 @@ function heli:setpas2(player,special)
 	player:set_attach(object, bone, {x=10,y=9,z=-9}, {x=0,y=0,z=0})
 end
 
-function heli:removedriver ()
+function heli:removedriver()
 	if self.driver:is_player() then
 		self.driver:set_eye_offset({x=0,y=0,z=0},{x=0,y=0,z=0})
 		self.driver:set_detach()
